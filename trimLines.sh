@@ -1,4 +1,3 @@
 #!/bin/bash
 
-awk 'length>255 && $0 ~ />/{len=length;$0=substr($0,0,255)};1' $1 > $2
-mv $2 $1
+awk -v maxLen=$3 'length>maxLen && $0 ~ />/{len=length;$0=substr($0,0,maxLen)};1' $1 > $2
