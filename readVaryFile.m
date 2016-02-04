@@ -6,11 +6,6 @@ rawMatrix = {};
 % count = 0;
 % use ischar because for empty line, '' ~= -1 gives [], which is false
 while ischar(line)
-%     if line == -1
-%         line = '';
-%         count = count+1;
-%         size(rawCAndHMatrix)
-%     end
     if strcmp(line,'')
         for i=1:size(words,2)
             if i==1
@@ -20,7 +15,11 @@ while ischar(line)
             end
         end
     else
-        words = strsplit(line,delimiter);
+        if exist('delimiter','var')
+            words = strsplit(line,delimiter);
+        else
+            words = {line};
+        end
         rawMatrix(end+1,1:length(words)) = words;
     end
     line = fgetl(FI);
