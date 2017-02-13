@@ -117,6 +117,8 @@ function makeBar(xvals,yvals,titleString,outputDir,varargin)
             barH=bar(xvals,yvals,'stacked');
             if strcmp(titleString,'subSystemsAdded')
                 legend(legendLabels,'location','northwest', 'FontSize',30);
+            elseif strcmp(titleString,'Coverage of Previous Models')
+                legend(legendLabels,'location','northwest','FontSize',5);
             else
                 legend(legendLabels,'location','northwest');
             end
@@ -202,10 +204,22 @@ function makeBar(xvals,yvals,titleString,outputDir,varargin)
     end
 
     ylim([yLimMin yLimMax]);
+    tempxlabelMin = yLimMin;
+    if strcmp(titleString,'EC Coverage Among HMP Species')
+        ylim([-.15 1]);
+        tempxlabelMin = -.15;
+    elseif strcmp(titleString,'Gene Coverage Among HMP Species')
+        ylim([-.05 1]);
+        tempxlabelMin = -.05;
+    elseif strcmp(titleString,'Coverage of Previous Models')
+        temp = ylim();
+        ylim([temp(1) 600]);
+        tempxlabelMin = temp(1);
+    end
     title(strrep(titleString,'_','\_'),'FontSize',titleFontSize,'FontName','FixedWidth');
     if ~isempty(xlabels)
         for j=1:length(xlabels)
-            text(j,yLimMin,xlabels{j},'Rotation',90,'FontSize',xlabelsFontSize,'FontName','FixedWidth');
+            text(j,tempxlabelMin,xlabels{j},'Rotation',90,'FontSize',xlabelsFontSize,'FontName','FixedWidth');
         end
     end
 

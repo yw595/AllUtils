@@ -16,7 +16,7 @@ while ischar(line)
         end
     else
         if exist('delimiter','var')
-            words = strsplit(line,delimiter);
+            words = strsplitYiping(line,delimiter);
         else
             words = {line};
         end

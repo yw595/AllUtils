@@ -1,4 +1,4 @@
-function writeData(dataFields,outputFile,delimiter)
+function writeData(dataFields,outputFile,delimiter,headers)
 
 dataCell = cell(length(dataFields{1}),0);
 formatString = '';
@@ -27,6 +27,15 @@ for i=1:length(dataFields)
 end
 
 FI = fopen(outputFile,'w');
+if exist('headers','var')
+    %formatStringHeader = repmat('%f\t',1,length(headers));
+    %formatStringHeader(end) = 'n';
+    %formatStringHeader
+    for i=1:length(headers)-1
+        fprintf(FI,'%s\t',headers{i});
+    end
+    fprintf(FI,'%s\n',headers{end});
+end
 for i=1:size(dataCell,1)
     fprintf(FI,formatString,dataCell{i,:});
 end

@@ -22,5 +22,11 @@ end
 if size(newModel.ub,1) < size(newModel.ub,2)
     newModel.ub = newModel.ub';
 end
+if size(newModel.rxnECNums,1) < size(newModel.rxnECNums,2)
+    newModel.rxnECNums = newModel.rxnECNums';
+end
+if size(newModel.rev,1) < size(newModel.rev,2)
+    newModel.rev = newModel.rev';
+end
 
 end

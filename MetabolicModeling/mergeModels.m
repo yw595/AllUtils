@@ -2,18 +2,24 @@ function returnModel = mergeModels(origModel,modelTemp,specificRxn)
 
 returnModel = origModel;
 count = 0;
-for j=1:length(modelTemp.rxns)
-    if exist('specificRxn','var')
-        matchRxn = strcmp(modelTemp.rxns{j},specificRxn);
-    else
-        matchRxn = 1;
-    end
-    if ~any(strcmp(returnModel.rxns,modelTemp.rxns{j})) && matchRxn
+idxsToIter = 1:length(modelTemp.rxns);
+if exist('specificRxn','var')
+    idxsToIter = find(strcmp(modelTemp.rxns,specificRxn));
+end
+for l=1:length(idxsToIter)
+    % if exist('specificRxn','var')
+    %     matchRxn = strcmp(modelTemp.rxns{j},specificRxn);
+    % else
+    %     matchRxn = 1;
+    % end
+    j=idxsToIter(l);
+    if ~any(strcmp(returnModel.rxns,modelTemp.rxns{j}))% && matchRxn
         count = count+1;
         %disp(count);
         returnModel.rxns{end+1} = modelTemp.rxns{j};
         returnModel.rxnNames{end+1} = modelTemp.rxnNames{j};
         returnModel.subSystems{end+1} = modelTemp.subSystems{j};
+        returnModel.rxnECNums{end+1} = '';
         returnModel.lb(strcmp(returnModel.rxns,modelTemp.rxns{j})) = modelTemp.lb(j);
         returnModel.ub(strcmp(returnModel.rxns,modelTemp.rxns{j})) = modelTemp.ub(j);
         returnModel.rev(strcmp(returnModel.rxns,modelTemp.rxns{j})) = modelTemp.rev(j);

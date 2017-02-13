@@ -9,5 +9,6 @@ newModel.ub = [];
 newModel.rxnNames = {};
 newModel.metNames = {};
 newModel.subSystems = {};
+newModel.rxnECNums = {};
 
 end
