@@ -23,6 +23,9 @@ for l=1:length(idxsToIter)
         returnModel.lb(strcmp(returnModel.rxns,modelTemp.rxns{j})) = modelTemp.lb(j);
         returnModel.ub(strcmp(returnModel.rxns,modelTemp.rxns{j})) = modelTemp.ub(j);
         returnModel.rev(strcmp(returnModel.rxns,modelTemp.rxns{j})) = modelTemp.rev(j);
+        if isfield(returnModel,'c')
+            returnModel.c(strcmp(returnModel.rxns,modelTemp.rxns{j})) = modelTemp.c(j);
+        end
         if ~isempty(regexp(modelTemp.rxnNames{j},'EX'))
             returnModel.subSystems{end} = 'Exchange';
         elseif ~isempty(regexpi(modelTemp.rxnNames{j},'transport'))
@@ -31,10 +34,14 @@ for l=1:length(idxsToIter)
         mets = modelTemp.mets(modelTemp.S(:,j)~=0);
         metNames = modelTemp.metNames(modelTemp.S(:,j)~=0);
         coeffs = modelTemp.S(modelTemp.S(:,j)~=0,j);
+        bCoeffs = modelTemp.b(modelTemp.S(:,j)~=0);
         for k=1:length(mets)
             if ~any(strcmp(returnModel.mets,mets{k}))
                 returnModel.mets{end+1} = mets{k};
                 returnModel.metNames{end+1} = metNames{k};
+                if isfield(returnModel,'b')
+                    returnModel.b(end+1) = bCoeffs(k);
+                end
             end
             returnModel.S(strcmp(returnModel.mets,mets{k}),strcmp(returnModel.rxns,modelTemp.rxns{j})) = coeffs(k);
         end
